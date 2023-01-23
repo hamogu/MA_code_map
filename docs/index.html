@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Building energy codes adopted in Massachusetts</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 400px;
+			width: 600px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+
+	<style>#map { width: 800px; height: 500px; }
+.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }</style>
+</head>
+<body>
+
+<div id='map'></div>
+
+<script type="text/javascript" src="MA_energy_codes_town.js"></script>
+
+<script type="text/javascript">
+
+	const map = L.map('map').setView([42.1196, -71.6487], 8);
+
+	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+	// control that shows state info on hover
+	const info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		const contents = props ? `<b>${props.town}</b><br />stretch code effective on: ${props.stretchcode}<br />opt-in stretch code effective on: ${props.optinstretchcode}<br />${props.fossilfuel}` : 'Hover over a town or city';
+		this._div.innerHTML = `<h4>MA energy code adopted</h4>${contents}`;
+	};
+
+	info.addTo(map);
+
+
+	// get color depending on population density value
+	function getColor(d) {
+		return d == 0 ? '#e5f5e0' :
+			d == 1  ? '#a1d99b' :
+			d == 2  ? '#31a354' :
+			d == 10  ? '#deebf7' :
+			d == 11   ? '#9ecae1' :
+			d == 12   ? '#3182bd' :
+			d > 12   ? '#FED976' : '#FFEDA0';
+	}
+
+	function style(feature) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.code_color)
+		};
+	}
+
+	function highlightFeature(e) {
+		const layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		layer.bringToFront();
+
+		info.update(layer.feature.properties);
+	}
+
+	/* global townsData */
+	const geojson = L.geoJson(townsData, {
+		style,
+		onEachFeature
+	}).addTo(map);
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	map.attributionControl.addAttribution('Municipal Boundaries from <a href="https://www.mass.gov/info-details/massgis-data-municipalities">MassGIS</a>');
+
+
+	const legend = L.control({position: 'bottomleft'});
+
+	legend.onAdd = function (map) {
+
+		const div = L.DomUtil.create('div', 'info legend');
+		const grades = [0, 1, 2, 10, 11, 12];
+		const labels = [`<i style="background:${getColor(0)}"></i> base code`,
+        `<i style="background:${getColor(1)}"></i> stretch code`,
+        `<i style="background:${getColor(2)}"></i> opt-in stretch code`,
+        `<i style="background:${getColor(10)}"></i> base code and fossil fuel ban`,
+        `<i style="background:${getColor(11)}"></i> stretch code and fossil fuel ban`,
+        `<i style="background:${getColor(12)}"></i> opt-in code and fossil fuel ban`,
+        ];
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+
+</script>
+
+
+
+</body>
+</html>
