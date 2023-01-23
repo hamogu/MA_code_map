@@ -63,12 +63,12 @@
 
 	// get color depending on population density value
 	function getColor(d) {
-		return d == 0 ? '#e5f5e0' :
-			d == 1  ? '#a1d99b' :
-			d == 2  ? '#31a354' :
-			d == 10  ? '#deebf7' :
-			d == 11   ? '#9ecae1' :
-			d == 12   ? '#3182bd' :
+		return d == 0 ? '#fee6ce' :
+			d == 1  ? '#fdae6b' :
+			d == 2  ? '#e6550d' :
+			d == 10  ? '#efedf5' :
+			d == 11   ? '#bcbddc' :
+			d == 12   ? '#756bb1' :
 			d > 12   ? '#FED976' : '#FFEDA0';
 	}
 
@@ -133,9 +133,9 @@
 		const labels = [`<i style="background:${getColor(0)}"></i> base code`,
         `<i style="background:${getColor(1)}"></i> stretch code`,
         `<i style="background:${getColor(2)}"></i> opt-in stretch code`,
-        `<i style="background:${getColor(10)}"></i> base code and fossil fuel ban`,
-        `<i style="background:${getColor(11)}"></i> stretch code and fossil fuel ban`,
-        `<i style="background:${getColor(12)}"></i> opt-in code and fossil fuel ban`,
+        `<i style="background:${getColor(10)}"></i> base code &plus; fossil fuel ban`,
+        `<i style="background:${getColor(11)}"></i> stretch code &plus; fossil fuel ban`,
+        `<i style="background:${getColor(12)}"></i> opt-in code &plus; fossil fuel ban`,
         ];
 
 		div.innerHTML = labels.join('<br>');
