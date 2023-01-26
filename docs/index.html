@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Building energy codes adopted in Massachusetts</title>
+	<title>MA Energy Codes Map</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 
@@ -39,10 +39,10 @@
 
 	const map = L.map('map').setView([42.1196, -71.6487], 8);
 
-	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 19,
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-	}).addTo(map);
+	//const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	//	maxZoom: 19,
+	//	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	//}).addTo(map);
 
 	// control that shows state info on hover
 	const info = L.control();
@@ -54,8 +54,8 @@
 	};
 
 	info.update = function (props) {
-		const contents = props ? `<b>${props.town}</b><br />stretch code effective on: ${props.stretchcode}<br />opt-in stretch code effective on: ${props.optinstretchcode}<br />${props.fossilfuel}` : 'Hover over a town or city';
-		this._div.innerHTML = `<h4>MA energy code adopted</h4>${contents}`;
+		const contents = props ? `<b>${props.town}</b><br />Stretch Code effective: ${props.stretchcode}<br />Specialized Opt-in Code effective: ${props.optinstretchcode}<br />${props.fossilfuel}` : '[hover over a town or city]';
+		this._div.innerHTML = `<h4>MA Energy Codes Map</h4>${contents}`;
 	};
 
 	info.addTo(map);
@@ -63,12 +63,12 @@
 
 	// get color depending on population density value
 	function getColor(d) {
-		return d == 0 ? '#fee6ce' :
-			d == 1  ? '#fdae6b' :
-			d == 2  ? '#e6550d' :
+		return d == 0 ? '#ffdca2' :
+			d == 1  ? '#fd8f52' :
+			d == 2  ? '#DD2476' :
 			d == 10  ? '#efedf5' :
-			d == 11   ? '#bcbddc' :
-			d == 12   ? '#756bb1' :
+			d == 11   ? '#cdb3d4' :
+			d == 12   ? '#662377' :
 			d > 12   ? '#FED976' : '#FFEDA0';
 	}
 
@@ -129,13 +129,12 @@
 	legend.onAdd = function (map) {
 
 		const div = L.DomUtil.create('div', 'info legend');
-		const grades = [0, 1, 2, 10, 11, 12];
-		const labels = [`<i style="background:${getColor(0)}"></i> base code`,
-        `<i style="background:${getColor(1)}"></i> stretch code`,
-        `<i style="background:${getColor(2)}"></i> opt-in stretch code`,
-        `<i style="background:${getColor(10)}"></i> base code &plus; fossil fuel ban`,
-        `<i style="background:${getColor(11)}"></i> stretch code &plus; fossil fuel ban`,
-        `<i style="background:${getColor(12)}"></i> opt-in code &plus; fossil fuel ban`,
+		const grades = [0, 1, 2, 11, 12];
+		const labels = [`<i style="background:${getColor(0)}"></i> Base Energy Code`,
+        `<i style="background:${getColor(1)}"></i> Stretch Code`,
+        `<i style="background:${getColor(2)}"></i> Specialized Opt-in Code`,
+        `<i style="background:${getColor(11)}"></i> Stretch Code &plus; Fossil Fuel Free`,
+        `<i style="background:${getColor(12)}"></i> Specialized Opt-in Code &plus; Fossil Fuel Free`,
         ];
 
 		div.innerHTML = labels.join('<br>');
