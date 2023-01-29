@@ -44,7 +44,7 @@ for town in data['features']:
     name = town['properties']['town'].title()
     town['properties']['stretchcode'] = stretch_code.get(name, 'not yet')
     town['properties']['optinstretchcode'] = specialized_opt_in.get(name, 'not yet')
-    town['properties']['fossilfuel'] = 'Fossil Fuel Free Pilot' if name in fossil_fuel_free else ''
+    town['properties']['fossilfuel'] = 'Fossil Fuel Free Pilot Municipality' if name in fossil_fuel_free else ''
     if name in specialized_opt_in:
         code_color = 2
     elif name in stretch_code:
