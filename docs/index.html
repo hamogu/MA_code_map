@@ -54,7 +54,7 @@
 	};
 
 	info.update = function (props) {
-		const contents = props ? `<b>${props.town}</b><br />Stretch Code Effective: ${props.stretchcode}<br />Specialized Opt-in Code Effective: ${props.optinstretchcode}<br />${props.fossilfuel}` : '[hover over a municipality]';
+		const contents = props ? `<b>${props.town}</b><br />Stretch Code effective: ${props.stretchcode}<br />Specialized Opt-in Code effective: ${props.optinstretchcode}<br />${props.fossilfuel}` : '[hover over a municipality]';
 		this._div.innerHTML = `<h4>MA ENERGY CODES</h4>${contents}`;
 	};
 
@@ -133,8 +133,8 @@
 		const labels = [`<i style="background:${getColor(0)}"></i> Base Energy Code`,
         `<i style="background:${getColor(1)}"></i> Stretch Code`,
         `<i style="background:${getColor(2)}"></i> Specialized Opt-in Code`,
-        `<i style="background:${getColor(11)}"></i> Stretch Code &plus; Fossil Fuel Free Pilot`,
-        `<i style="background:${getColor(12)}"></i> Specialized Opt-in Code &plus; Fossil Fuel Free Pilot`,
+        `<i style="background:${getColor(11)}"></i> Stretch Code &plus; Fossil Fuel Free`,
+        `<i style="background:${getColor(12)}"></i> Specialized Opt-in Code &plus; Fossil Fuel Free`,
         ];
 
 		div.innerHTML = labels.join('<br>');
