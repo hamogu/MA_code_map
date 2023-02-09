@@ -54,8 +54,8 @@
 	};
 
 	info.update = function (props) {
-		const contents = props ? `<b>${props.town}</b><br />Stretch Code effective: ${props.stretchcode}<br />Specialized Opt-in Code anticipated: ${props.optinstretchcode}<br />${props.fossilfuel}` : '[hover over a municipality]';
-		this._div.innerHTML = `<h4>MA ENERGY CODES</h4>${contents}`;
+		const contents = props ? `<b>${props.town}</b><br />Stretch Code effective: ${props.stretchcode}<br />Specialized Opt-in Code municipal vote: ${props.optinstretchcode}<br />${props.fossilfuel}` : '[hover over a municipality]';
+		this._div.innerHTML = `<h4>MA ENERGY CODES IN 2023</h4>${contents}`;
 	};
 
 	info.addTo(map);
