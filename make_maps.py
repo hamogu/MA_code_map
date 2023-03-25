@@ -15,7 +15,7 @@ for i, f in enumerate(data['features']):
 
 # Parse input data in three files
 stretch_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+[a-zA-Z\ ]+[0-9/]+\ (?P<date>[0-9/]+)")
-specialized_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ (?P<date>[yes]+)")
+specialized_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ (?P<date>[0-9/]+)")
 
 # Stretch code
 stretch_code = {}
