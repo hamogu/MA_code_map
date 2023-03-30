@@ -14,24 +14,20 @@ for i, f in enumerate(data['features']):
     f['id'] = f['properties']['town']
 
 # Parse input data in three files
-stretch_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+[a-zA-Z\ ]+[0-9/]+\ (?P<date>[0-9/]+)")
-specialized_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ (?P<date>[0-9/]+)")
+stretch_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+)")
+specialized_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+) (?P<specialdate>[0-9/]*)")
 
 # Stretch code
 stretch_code = {}
-with open('stretch_code.dat') as f:
+specialized_opt_in = {}
+with open('code_dates.dat') as f:
     for line in f:
         out = stretch_code_table.search(line)
         if out is not None:
             stretch_code[out.group('name')] = out.group('date')
-
-# Specialized opt-in stretch code
-specialized_opt_in = {}
-with open('specialized_opt_in.dat') as f:
-    for line in f:
         out = specialized_code_table.search(line)
         if out is not None:
-            specialized_opt_in[out.group('name')] = out.group('date')
+            specialized_opt_in[out.group('name')] = out.group('specialdate')
 
 # Approved list of fossil-fuel free pilot towns
 fossil_fuel_free = []
