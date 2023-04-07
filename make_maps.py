@@ -36,8 +36,8 @@ with open('fossil_fuel_free.dat') as f:
         fossil_fuel_free.append(line.strip())
 
 print(f'Number of municipalities in geojson file: {len(data["features"])}')
-print(f'Number of municipalities with base code: {len(data["features"]) - len(stretch_code) - len(specialized_opt_in)}')
-print(f'Number of municipalities with stretch code: {len(stretch_code)}')
+print(f'Number of municipalities with base code: {len(data["features"]) - len(stretch_code)}')
+print(f'Number of municipalities with stretch code (incl. those with opt-in stretch code): {len(stretch_code) - len(specialized_opt_in)}')
 print(f'Number of municipalities with specialized opt-in stretch code: {len(specialized_opt_in)}')
 print(f'Number of municipalities with fossil-fuel free: {len(fossil_fuel_free)}')
 
