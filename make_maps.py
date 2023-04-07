@@ -35,6 +35,12 @@ with open('fossil_fuel_free.dat') as f:
     for line in f:
         fossil_fuel_free.append(line.strip())
 
+print(f'Number of municipalities in geojson file: {len(data["features"])}')
+print(f'Number of municipalities with base code: {len(data["features"]) - len(stretch_code) - len(specialized_opt_in)}')
+print(f'Number of municipalities with stretch code: {len(stretch_code)}')
+print(f'Number of municipalities with specialized opt-in stretch code: {len(specialized_opt_in)}')
+print(f'Number of municipalities with fossil-fuel free: {len(fossil_fuel_free)}')
+
 # Now we add that information into the geojson file
 for town in data['features']:
     name = town['properties']['town'].title()
