@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-
+	<script src="./leaflet.timeline.js"></script>
 	<style>
 		html, body {
 			height: 100%;
@@ -99,13 +99,28 @@
 	}
 
 	/* global townsData */
-	const geojson = L.geoJson(townsData, {
-		style,
-		onEachFeature
-	}).addTo(map);
+    const timeline = L.timeline(townsData, {
+					style,
+					waitToUpdateMap: true,
+					onEachFeature,
+			}).addTo(map);
+
+	const timelineControl = L.timelineSliderControl({
+		/* I beleive I could leave the default here */
+					formatOutput: function(date) {
+						return new Date(date).toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'numeric',
+						});
+					},
+					enableKeyboardControls: true,
+				});
+	timelineControl.addTo(map);
+	timelineControl.addTimelines(timeline);
+
 
 	function resetHighlight(e) {
-		geojson.resetStyle(e.target);
+		timeline.resetStyle(e.target);
 		info.update();
 	}
 
