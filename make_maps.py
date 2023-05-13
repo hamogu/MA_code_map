@@ -6,7 +6,7 @@ from datetime import date, timedelta, datetime
 # Data is downloaded from https://maps.massgis.digital.mass.gov/MassMapper/MassMapper.html
 # Using layer: Massachusetts Municipalities Multipar Polygons
 # and exported as lat/lon as shapefile in WGS84
-# Downloaded data is passed to https://mapshaper.org/ 
+# Downloaded data is passed to https://mapshaper.org/
 # and simplified to > 5 % of the original file size, fixing any line crossings.
 # The resulting data is saved as MA_towns.json into this repository.
 with open('MA_towns.json') as f:
@@ -63,7 +63,7 @@ for town in data['features']:
         dates.append((specialized_opt_in.get(name), 1))
     if name in fossil_fuel_free:
         dates.append(('07/01/2024', 10))
-        
+
     dates.sort(key=lambda x: datetime.strptime(x[0], '%m/%d/%Y'))
 
     feature = {'type': 'Feature',
@@ -89,3 +89,16 @@ for town in data['features']:
 # That way, we get a file very similar to https://leafletjs.com/examples/choropleth/
 with open('docs/MA_energy_codes_town.js', 'w') as f:
     f.write('var townsData = ' + json.dumps(outdata) + ';')
+
+base_code = []
+for town in data['features']:
+    name = town['properties']['town'].title()
+    if name not in stretch_code:
+         base_code.append(name)
+base_code.sort()
+
+for name in base_code:
+    print(name)
+
+print(len(base_code))
+
