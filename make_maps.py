@@ -52,26 +52,28 @@ featurelist = []
 
 for town in data['features']:
     name = town['properties']['town'].title()
-    town['properties']['stretchcode'] = stretch_code.get(name, 'not yet')
-    town['properties']['optinstretchcode'] = specialized_opt_in.get(name, 'not yet')
-    town['properties']['fossilfuel'] = 'Fossil Fuel Free prioritized community (draft)' if name in fossil_fuel_free else ''
-
-    dates = [('01/01/2009', 0), ('01/02/2025', None)]
-    if name in stretch_code:
-        dates.append((stretch_code.get(name), 1))
-    if name in specialized_opt_in:
-        dates.append((specialized_opt_in.get(name), 1))
-    if name in fossil_fuel_free:
-        dates.append(('07/01/2024', 10))
-
-    dates.sort(key=lambda x: datetime.strptime(x[0], '%m/%d/%Y'))
-
     feature = {'type': 'Feature',
                'geometry': town['geometry'],
                'properties': town['properties']}
     feature['properties']['stretchcode'] = stretch_code.get(name, 'not yet')
     feature['properties']['optinstretchcode'] = specialized_opt_in.get(name, 'not yet')
     feature['properties']['fossilfuel'] = 'Fossil Fuel Free prioritized community (draft)' if name in fossil_fuel_free else ''
+
+    # Special case for the town of Essex, the only one that unadopted the code
+    if name == 'Essex':
+        feature['properties']['stretchcode'] = '1/1/2015 - 5/8/2023'
+        dates = [('01/01/2009', 0), ('01/01/2015', 1), ('05/08/2023', -1), ('01/02/2025', None)]
+    else:
+
+        dates = [('01/01/2009', 0), ('01/02/2025', None)]
+        if name in stretch_code:
+            dates.append((stretch_code.get(name), 1))
+        if name in specialized_opt_in:
+            dates.append((specialized_opt_in.get(name), 1))
+        if name in fossil_fuel_free:
+            dates.append(('07/01/2024', 10))
+
+    dates.sort(key=lambda x: datetime.strptime(x[0], '%m/%d/%Y'))
 
     codecolor = 0
     for i, d in enumerate(dates[:-1]):

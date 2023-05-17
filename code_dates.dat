@@ -94,7 +94,7 @@ Easton 25,058 1/1/2011
 Edgartown 5,168 7/1/2021
 Egremont 1,372 1/1/2015
 Erving 1,665 1/1/2017
-Essex 3,675 X
+Essex 3,675 DATES_HARDCODED_AS_SPECIAL_CASE_IN_PYTHON
 Everett 49,075 7/1/2015
 Fairhaven 15,924 7/1/2018
 Fall River 94,000 X
@@ -287,7 +287,7 @@ Sterling 7,985 X
 Stockbridge 2,018 1/1/2012
 Stoneham 23,244 7/1/2017
 Stoughton 29,281 7/1/2015
-Stow 7,174 1/1/2016
+Stow 7,174 1/1/2016 1/1/2024
 Sturbridge 9,867 1/1/2019
 Sudbury 18,934 1/1/2011
 Sunderland 3,663 1/1/2013
