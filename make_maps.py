@@ -63,6 +63,9 @@ for town in data['features']:
     if name == 'Essex':
         feature['properties']['stretchcode'] = '1/1/2015 - 5/8/2023'
         dates = [('01/01/2009', 0), ('01/01/2015', 1), ('05/08/2023', -1), ('01/02/2025', None)]
+    elif name == 'Rochester':
+        feature['properties']['stretchcode'] = '1/1/2019 - 5/22/2023'
+        dates = [('01/01/2009', 0), ('01/01/2019', 1), ('05/22/2023', -1), ('01/02/2025', None)]
     else:
 
         dates = [('01/01/2009', 0), ('01/02/2025', None)]
