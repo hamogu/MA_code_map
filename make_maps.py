@@ -47,8 +47,9 @@ def USdate_to_ISO(datestr, subtractdays=0):
     return (datetime.strptime(datestr, '%m/%d/%Y') -
             timedelta(days=subtractdays)).isoformat()
 
-# Now we build up the geojson file with the data we want to display
-featurelist = []
+# Now we build up the geojson files with the data we want to display
+featurelist = []  # for timeline
+featurelist_future = []  # for plain version, capture last known date
 
 for town in data['features']:
     name = town['properties']['town'].title()
@@ -59,7 +60,7 @@ for town in data['features']:
     feature['properties']['optinstretchcode'] = specialized_opt_in.get(name, 'not yet')
     feature['properties']['fossilfuel'] = 'Fossil Fuel Free prioritized community (draft)' if name in fossil_fuel_free else ''
 
-    # Special case for the town of Essex, the only one that unadopted the code
+    # Special case for towns that left the stretch code program
     if name == 'Essex':
         feature['properties']['stretchcode'] = '1/1/2015 - 5/8/2023'
         dates = [('01/01/2009', 0), ('01/01/2015', 1), ('05/08/2023', -1), ('01/02/2025', None)]
@@ -87,13 +88,21 @@ for town in data['features']:
         code['properties']['end'] = USdate_to_ISO(dates[i + 1][0], subtractdays=1)
         featurelist.append(code)
 
-    outdata = {'type': 'FeatureCollection', 'features': featurelist}
+    # Add last known data point - the one most in the future
+    # i.e. the last thing the town has adopted so far
+    featurelist_future.append(code)
 
 
 # And write it into docs/MA_energy_codes_town.js such that it's read directly as a javascript file
 # That way, we get a file very similar to https://leafletjs.com/examples/choropleth/
+outdata = {'type': 'FeatureCollection', 'features': featurelist}
 with open('docs/MA_energy_codes_town.js', 'w') as f:
     f.write('var townsData = ' + json.dumps(outdata) + ';')
+
+outdata = {'type': 'FeatureCollection', 'features': featurelist_future}
+with open('docs/MA_energy_codes_town_future.js', 'w') as f:
+    f.write('var townsData = ' + json.dumps(outdata) + ';')
+
 
 base_code = []
 for town in data['features']:
