@@ -1,7 +1,7 @@
 import re
 import json
 import copy
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 
 # Data is downloaded from https://maps.massgis.digital.mass.gov/MassMapper/MassMapper.html
 # Using layer: Massachusetts Municipalities Multipar Polygons
@@ -16,6 +16,7 @@ for i, f in enumerate(data['features']):
     f['id'] = f['properties']['town']
 
 # Parse input data in three files
+fossil_fuel_free_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ (?P<date>[0-9/]+)")
 stretch_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+)")
 specialized_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+) (?P<specialdate>[0-9/]*)")
 
@@ -32,10 +33,18 @@ with open('code_dates.dat') as f:
             specialized_opt_in[out.group('name')] = out.group('specialdate')
 
 # Approved list of fossil-fuel free pilot towns
-fossil_fuel_free = []
+fossil_fuel_free = {}
 with open('fossil_fuel_free.dat') as f:
     for line in f:
-        fossil_fuel_free.append(line.strip())
+        out = fossil_fuel_free_table.search(line)
+        if out is None:
+            # Just the name of the town, no date
+            fossil_fuel_free[line.strip()] = "draft"
+        else:
+            # Name and date
+            fossil_fuel_free[out.group("name")] = out.group("date")
+
+print(fossil_fuel_free)
 
 print(f'Number of municipalities in geojson file: {len(data["features"])}')
 print(f'Number of municipalities with base code: {len(data["features"]) - len(stretch_code)}')
@@ -58,7 +67,12 @@ for town in data['features']:
                'properties': town['properties']}
     feature['properties']['stretchcode'] = stretch_code.get(name, 'not yet')
     feature['properties']['optinstretchcode'] = specialized_opt_in.get(name, 'not yet')
-    feature['properties']['fossilfuel'] = 'Fossil Fuel Free prioritized community (draft)' if name in fossil_fuel_free else ''
+    if name in fossil_fuel_free:
+        feature["properties"][
+            "fossilfuel"
+        ] = f"Fossil Fuel Free prioritized community: {fossil_fuel_free[name]}"
+    else:
+        feature["properties"]["fossilfuel"] = ""
 
     # Special case for towns that left the stretch code program
     if name == 'Essex':
@@ -75,7 +89,10 @@ for town in data['features']:
         if name in specialized_opt_in:
             dates.append((specialized_opt_in.get(name), 1))
         if name in fossil_fuel_free:
-            dates.append(('07/01/2024', 10))
+            if fossil_fuel_free[name] == "draft":
+                dates.append(("07/01/2024", 10))
+            else:
+                dates.append((fossil_fuel_free[name], 10))
 
     dates.sort(key=lambda x: datetime.strptime(x[0], '%m/%d/%Y'))
 
