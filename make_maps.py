@@ -9,6 +9,11 @@ from datetime import timedelta, datetime
 # Downloaded data is passed to https://mapshaper.org/
 # and simplified to > 5 % of the original file size, fixing any line crossings.
 # The resulting data is saved as MA_towns.json into this repository.
+
+# Date a which the timeline ends. Needs to be later than the last date in the data
+# but it's eaiser to update here by hand than to search through the data to find it.
+enddate = "01/02/2026"
+
 with open('MA_towns.json') as f:
     data = json.load(f)
 
@@ -77,13 +82,22 @@ for town in data['features']:
     # Special case for towns that left the stretch code program
     if name == 'Essex':
         feature['properties']['stretchcode'] = '1/1/2015 - 5/8/2023'
-        dates = [('01/01/2009', 0), ('01/01/2015', 1), ('05/08/2023', -1), ('01/02/2025', None)]
+        dates = [
+            ("01/01/2009", 0),
+            ("01/01/2015", 1),
+            ("05/08/2023", -1),
+            (enddate, None),
+        ]
     elif name == 'Rochester':
         feature['properties']['stretchcode'] = '1/1/2019 - 5/22/2023'
-        dates = [('01/01/2009', 0), ('01/01/2019', 1), ('05/22/2023', -1), ('01/02/2025', None)]
+        dates = [
+            ("01/01/2009", 0),
+            ("01/01/2019", 1),
+            ("05/22/2023", -1),
+            (enddate, None),
+        ]
     else:
-
-        dates = [('01/01/2009', 0), ('01/02/2025', None)]
+        dates = [("01/01/2009", 0), (enddate, None)]
         if name in stretch_code:
             dates.append((stretch_code.get(name), 1))
         if name in specialized_opt_in:
