@@ -34,7 +34,7 @@ jobs:
       - name: Run Python to generate geojson
         run: python make_maps.py
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           # Upload entire repository
           path: 'docs/.'
