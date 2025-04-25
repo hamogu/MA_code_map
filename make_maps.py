@@ -130,9 +130,16 @@ outdata = {'type': 'FeatureCollection', 'features': featurelist}
 with open('docs/MA_energy_codes_town.js', 'w') as f:
     f.write('var townsData = ' + json.dumps(outdata) + ';')
 
+# For external use, also write a geojson
+with open("docs/MA_energy_codes_town.json", "w") as f:
+    json.dump(outdata, f)
+
 outdata = {'type': 'FeatureCollection', 'features': featurelist_future}
 with open('docs/MA_energy_codes_town_future.js', 'w') as f:
     f.write('var townsData = ' + json.dumps(outdata) + ';')
+
+with open("docs/MA_energy_codes_town_future.json", "w") as f:
+    json.dump(outdata, f)
 
 
 base_code = []
