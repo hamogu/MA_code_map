@@ -96,6 +96,14 @@ for town in data['features']:
             ("05/22/2023", -1),
             (enddate, None),
         ]
+    elif name == "Clinton":
+        feature["properties"]["stretchcode"] = "1/1/2019 - 5/22/2023"
+        dates = [
+            ("01/01/2009", 0),
+            ("07/01/2019", 1),
+            ("08/08/2025", -1),
+            (enddate, None),
+        ]
     else:
         dates = [("01/01/2009", 0), (enddate, None)]
         if name in stretch_code:

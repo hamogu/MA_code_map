@@ -66,7 +66,7 @@ Chesterfield 1,186 1/1/2012
 Chicopee 55,560 1/1/2017
 Chilmark 1,212 7/1/2019
 Clarksburg 1,657 1/1/2017
-Clinton 15,428 7/1/2019
+Clinton 15,428 DATES_HARDCODED_AS_SPECIAL_CASE_IN_PYTHON
 Cohasset 8,381 1/1/2016
 Colrain 1,606 1/1/2019
 Concord 18,491 1/1/2011 1/1/2024
