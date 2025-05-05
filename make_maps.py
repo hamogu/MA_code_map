@@ -12,7 +12,7 @@ from datetime import timedelta, datetime
 
 # Date a which the timeline ends. Needs to be later than the last date in the data
 # but it's eaiser to update here by hand than to search through the data to find it.
-enddate = "01/02/2026"
+enddate = "07/02/2026"
 
 with open('MA_towns.json') as f:
     data = json.load(f)
