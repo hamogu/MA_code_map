@@ -97,11 +97,19 @@ for town in data['features']:
             (enddate, None),
         ]
     elif name == "Clinton":
-        feature["properties"]["stretchcode"] = "1/1/2019 - 5/22/2023"
+        feature["properties"]["stretchcode"] = "1/1/2019 - 8/8/2025"
         dates = [
             ("01/01/2009", 0),
             ("07/01/2019", 1),
             ("08/08/2025", -1),
+            (enddate, None),
+        ]
+    elif name == "Marion":
+        feature["properties"]["stretchcode"] = "1/1/2019 - 5/12/2025"
+        dates = [
+            ("01/01/2009", 0),
+            ("01/01/2019", 1),
+            ("05/12/2025", -1),
             (enddate, None),
         ]
     else:

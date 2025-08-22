@@ -170,7 +170,7 @@ Malden 66,263 1/1/2017
 Manchester By The Sea 5,395 1/1/2014
 Mansfield 23,860 7/1/2021
 Marblehead 20,441 7/1/2018
-Marion 5,347 1/1/2019
+Marion 5,347 DATES_HARDCODED_AS_SPECIAL_CASE_IN_PYTHON
 Marlborough 41,793 1/1/2012
 Marshfield 25,825 7/1/2015
 Mashpee 15,060 1/1/2011
@@ -245,7 +245,7 @@ Plympton 2,930 1/1/2013
 Princeton 3,495 7/1/2020
 Provincetown 3,664 7/1/2012
 Quincy 101,636 7/1/2011
-Randolph 34,984 X
+Randolph 34,984 1/1/2026
 Raynham 15,142 X
 Reading 25,518 1/1/2021
 Rehoboth 12,502 7/1/2019
