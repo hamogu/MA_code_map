@@ -11,8 +11,8 @@ from datetime import timedelta, datetime
 # The resulting data is saved as MA_towns.json into this repository.
 
 # Date a which the timeline ends. Needs to be later than the last date in the data
-# but it's eaiser to update here by hand than to search through the data to find it.
-enddate = "07/02/2026"
+# but it's easier to update here by hand than to search through the data to find it.
+enddate = "01/01/2028"
 
 with open('MA_towns.json') as f:
     data = json.load(f)
@@ -21,9 +21,11 @@ for i, f in enumerate(data['features']):
     f['id'] = f['properties']['town']
 
 # Parse input data in three files
-fossil_fuel_free_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ (?P<date>[0-9/]+)")
-stretch_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+)")
-specialized_code_table = re.compile("(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+) (?P<specialdate>[0-9/]*)")
+fossil_fuel_free_table = re.compile(r"(?P<name>[a-zA-Z\ ]+)\ (?P<date>[0-9/]+)")
+stretch_code_table = re.compile(r"(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+)")
+specialized_code_table = re.compile(
+    r"(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+) (?P<specialdate>[0-9/]*)"
+)
 
 # Stretch code
 stretch_code = {}
