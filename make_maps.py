@@ -1,7 +1,38 @@
+import argparse
+import csv
 import re
 import json
 import copy
 from datetime import timedelta, datetime
+import shutil
+
+
+def read_csv_file(filename):
+    stretch_code = {}
+    specialized_opt_in = {}
+    header = None
+    with open(filename, newline="") as csvfile:
+        spamreader = csv.reader(csvfile)
+        for row in spamreader:
+            if not header:
+                header = row
+                continue
+            if row[3]:
+                stretch_code[row[0]] = row[
+                    header.index("Stretch Code (Effective Date)")
+                ]
+            if row[4]:
+                specialized_opt_in[row[0]] = row[
+                    header.index("Specialized Code (Effective Date)")
+                ]
+    return stretch_code, specialized_opt_in
+
+
+parser = argparse.ArgumentParser(
+    description="Generate geojson files for MA energy code map"
+)
+parser.add_argument("--update", help="Update code dates with new CSV file")
+args = parser.parse_args()
 
 # Data is downloaded from https://maps.massgis.digital.mass.gov/MassMapper/MassMapper.html
 # Using layer: Massachusetts Municipalities Multipar Polygons
@@ -22,22 +53,33 @@ for i, f in enumerate(data['features']):
 
 # Parse input data in three files
 fossil_fuel_free_table = re.compile(r"(?P<name>[a-zA-Z\ ]+)\ (?P<date>[0-9/]+)")
-stretch_code_table = re.compile(r"(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+)")
-specialized_code_table = re.compile(
-    r"(?P<name>[a-zA-Z\ ]+)\ [0-9\,]+ (?P<date>[0-9/]+) (?P<specialdate>[0-9/]*)"
-)
 
-# Stretch code
-stretch_code = {}
-specialized_opt_in = {}
-with open('code_dates.dat') as f:
-    for line in f:
-        out = stretch_code_table.search(line)
-        if out is not None:
-            stretch_code[out.group('name')] = out.group('date')
-        out = specialized_code_table.search(line)
-        if out is not None:
-            specialized_opt_in[out.group('name')] = out.group('specialdate')
+stretch_code, specialized_opt_in = read_csv_file("code_dates.dat")
+if args.update:
+    new_stretch_code, new_specialized_opt_in = read_csv_file(args.update)
+    if stretch_code != new_stretch_code:
+        print("Additional stretch codes:")
+        print(new_stretch_code.items() - stretch_code.items())
+        print("Additional specialized opt-in stretch codes:")
+        print(new_specialized_opt_in.items() - specialized_opt_in.items())
+        removed_stretch_code = stretch_code.items() - new_stretch_code.items()
+        removed_specialized_opt_in = (
+            specialized_opt_in.items() - new_specialized_opt_in.items()
+        )
+        if removed_specialized_opt_in:
+            print("Removed specialized opt-in stretch codes:")
+            print(removed_specialized_opt_in)
+        if removed_stretch_code:
+            print("Removed stretch codes:")
+            print(removed_stretch_code)
+        if removed_stretch_code or removed_specialized_opt_in:
+            raise ValueError(
+                "Some codes have been removed. This cannot be added automatically. Modify the Python code in make_maps.py!"
+            )
+        else:
+            shutil.copy(args.update, "code_dates.dat")
+            stretch_code = new_stretch_code
+            specialized_opt_in = new_specialized_opt_in
 
 # Approved list of fossil-fuel free pilot towns
 fossil_fuel_free = {}
@@ -51,7 +93,7 @@ with open('fossil_fuel_free.dat') as f:
             # Name and date
             fossil_fuel_free[out.group("name")] = out.group("date")
 
-print(fossil_fuel_free)
+print(f"Fossil Fuel Free towns: {fossil_fuel_free}")
 
 print(f'Number of municipalities in geojson file: {len(data["features"])}')
 print(f'Number of municipalities with base code: {len(data["features"]) - len(stretch_code)}')
