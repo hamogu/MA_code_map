@@ -32,6 +32,9 @@ parser = argparse.ArgumentParser(
     description="Generate geojson files for MA energy code map"
 )
 parser.add_argument("--update", help="Update code dates with new CSV file")
+parser.add_argument(
+    "--verbose", action="store_true", help="Print additional information about the data"
+)
 args = parser.parse_args()
 
 # Data is downloaded from https://maps.massgis.digital.mass.gov/MassMapper/MassMapper.html
@@ -57,7 +60,9 @@ fossil_fuel_free_table = re.compile(r"(?P<name>[a-zA-Z\ ]+)\ (?P<date>[0-9/]+)")
 stretch_code, specialized_opt_in = read_csv_file("code_dates.dat")
 if args.update:
     new_stretch_code, new_specialized_opt_in = read_csv_file(args.update)
-    if stretch_code != new_stretch_code:
+    if (stretch_code != new_stretch_code) or (
+        specialized_opt_in != new_specialized_opt_in
+    ):
         print("Additional stretch codes:")
         print(new_stretch_code.items() - stretch_code.items())
         print("Additional specialized opt-in stretch codes:")
@@ -76,10 +81,12 @@ if args.update:
             raise ValueError(
                 "Some codes have been removed. This cannot be added automatically. Modify the Python code in make_maps.py!"
             )
-        else:
-            shutil.copy(args.update, "code_dates.dat")
-            stretch_code = new_stretch_code
-            specialized_opt_in = new_specialized_opt_in
+        print(
+            "Stretch codes and specialized opt-in stretch codes have been updated. Updating code_dates.dat."
+        )
+        shutil.copy(args.update, "code_dates.dat")
+        stretch_code = new_stretch_code
+        specialized_opt_in = new_specialized_opt_in
 
 # Approved list of fossil-fuel free pilot towns
 fossil_fuel_free = {}
@@ -202,15 +209,16 @@ with open("docs/MA_energy_codes_town_future.json", "w") as f:
     json.dump(outdata, f)
 
 
-base_code = []
-for town in data['features']:
-    name = town['properties']['town'].title()
-    if name not in stretch_code:
-         base_code.append(name)
-base_code.sort()
+if args.verbose:
+    base_code = []
+    for town in data["features"]:
+        name = town["properties"]["town"].title()
+        if name not in stretch_code:
+            base_code.append(name)
+    base_code.sort()
+    print(f"Number of towns with base code: {len(base_code)}")
+    for name in base_code:
+        print(name)
 
-for name in base_code:
-    print(name)
 
-print(len(base_code))
 
