@@ -1,4 +1,4 @@
-﻿Municipality,Population,Base Code,Stretch Code (Effective Date),Specialized Code (Effective Date)
+﻿Municipality,Population,Base Code,Stretch Code Effective Date,Specialized Code Effective Date
 Abington,"17,090",,7/1/2017,
 Acton,"24,539",,1/1/2011,1/1/2024
 Acushnet,"10,700",,1/1/2014,
@@ -89,7 +89,7 @@ Eastham,"5,824",,7/1/2021,1/1/2025
 Easthampton,"16,020",,1/1/2011,1/1/2025
 Easton,"25,568",,1/1/2011,
 Edgartown,"5,328",,7/1/2021,
-Egremont,"1,375",,1/1/2015,
+Egremont,"1,375",,1/1/2016,
 Erving,"1,661",,1/1/2017,
 Essex,"3,760",X,,
 Everett,"51,825",,7/1/2015,
@@ -142,7 +142,7 @@ Hubbardston,"4,433",,7/1/2019,
 Hudson,"20,364",,7/1/2019,
 Hull,"10,278",X,,
 Huntington,"2,071",,1/1/2013,
-Ipswich,"14,110",,1/1/2019,
+Ipswich,"14,110",,10/16/2016,
 Kingston,"14,462",,1/1/2011,
 Lakeville,"12,262",,1/1/2012,
 Lancaster,"8,993",,1/1/2011,
@@ -160,7 +160,7 @@ Littleton,"10,495",,1/1/2016,
 Longmeadow,"15,712",,7/1/2014,
 Lowell,"120,418",,1/1/2011,
 Ludlow,"21,118",,7/1/2026,
-Lunenburg,"12,007",,7/1/2014,
+Lunenburg,"12,007",,1/1/2014,
 Lynn,"103,489",,1/1/2020,
 Lynnfield,"13,230",X,,
 Malden,"66,693",,1/1/2017,
@@ -175,11 +175,11 @@ Mattapoisett,"6,763",X,,
 Maynard,"10,820",,7/1/2012,1/1/2024
 Medfield,"13,334",,1/1/2017,
 Medford,"59,898",,1/1/2011,7/1/2024
-Medway,"13,836",,7/1/2011,
+Medway,"13,836",,1/1/2012,
 Melrose,"29,938",,1/1/2011,7/1/2024
 Mendon,"6,441",,1/1/2012,
 Merrimac,"6,810",,7/1/2018,
-Methuen,"54,272",,1/1/2019,
+Methuen,"54,272",,10/15/2018,
 Middleborough,"24,847",,7/1/2017,
 Middlefield,397,,1/1/2012,
 Middleton,"9,959",X,,
@@ -217,7 +217,7 @@ Northborough,"15,867",,7/1/2017,
 Northbridge,"16,719",,1/1/2017,
 Northfield,"2,880",,7/1/2013,
 Norton,"19,392",,7/1/2019,
-Norwell,"11,477",,1/1/2016,
+Norwell,"11,477",,1/1/2015,
 Norwood,"31,764",,7/1/2019,7/1/2024
 Oak Bluffs,"5,407",,7/1/2021,
 Oakham,"1,914",X,,
@@ -272,7 +272,7 @@ Shirley,"7,042",,7/1/2012,
 Shrewsbury,"39,620",,1/1/2018,
 Shutesbury,"1,717",,7/1/2011,5/31/2025
 Somerset,"18,375",X,,
-Somerville,"82,149",,1/1/2012,7/1/2023
+Somerville,"82,149",,7/1/2012,7/1/2023
 South Hadley,"18,031",,7/1/2017,
 Southampton,"6,181",,1/1/2017,
 Southborough,"10,569",,1/1/2017,
@@ -312,23 +312,23 @@ Wareham,"23,526",,7/1/2018,
 Warren,"5,086",,1/1/2017,
 Warwick,774,,1/1/2015,1/1/2026
 Washington,497,,7/1/2018,
-Watertown,"35,985",,7/1/2011,7/1/2023
+Watertown,"35,985",,7/1/2011,7/10/2023
 Wayland,"14,054",,7/1/2011,1/1/2025
 Webster,"17,817",,1/1/2018,
 Wellesley,"31,242",,1/1/2012,1/1/2024
 Wellfleet,"3,645",,1/1/2015,1/1/2024
 Wendell,916,,1/1/2014,
 Wenham,"4,945",,1/1/2011,1/1/2027
-West Boylston,"7,938",,1/1/2020,
+West Boylston,"7,938",,1/1/2018,
 West Bridgewater,"7,771",X,,
-West Brookfield,"3,917",,1/1/2018,
+West Brookfield,"3,917",,1/1/2020,
 West Newbury,"4,680",,1/1/2014,
 West Springfield,"29,028",,7/1/2016,
 West Stockbridge,"1,323",,7/1/2020,
 West Tisbury,"3,637",,1/1/2013,1/1/2025
 Westborough,"22,643",,7/1/2018,1/1/2027
 Westfield,"40,403",,1/1/2017,
-Westford,"25,024",,7/1/2014,
+Westford,"25,024",,7/1/2014,1/1/2028
 Westhampton,"1,629",,1/1/2019,
 Westminster,"8,509",,7/1/2012,
 Weston,"11,827",,1/1/2012,7/1/2024

@@ -6,7 +6,6 @@ import copy
 from datetime import timedelta, datetime
 import shutil
 
-
 def read_csv_file(filename):
     stretch_code = {}
     specialized_opt_in = {}
@@ -18,12 +17,10 @@ def read_csv_file(filename):
                 header = row
                 continue
             if row[3]:
-                stretch_code[row[0]] = row[
-                    header.index("Stretch Code (Effective Date)")
-                ]
+                stretch_code[row[0]] = row[header.index("Stretch Code Effective Date")]
             if row[4]:
                 specialized_opt_in[row[0]] = row[
-                    header.index("Specialized Code (Effective Date)")
+                    header.index("Specialized Code Effective Date")
                 ]
     return stretch_code, specialized_opt_in
 
@@ -31,7 +28,14 @@ def read_csv_file(filename):
 parser = argparse.ArgumentParser(
     description="Generate geojson files for MA energy code map"
 )
-parser.add_argument("--update", help="Update code dates with new CSV file")
+parser.add_argument(
+    "--update",
+    help="""Update code dates with new CSV file.
+The CSV file have to be manually downloaded from https://www.mass.gov/info-details/massachusetts-building-energy-code-adoption-by-municipality  .
+After downloading, pass the file path to this argument.
+This mode ONLY updates 'code_dates.dat', so that is can be manually inspected before making new maps
+with `python make_maps.py`.""",
+)
 parser.add_argument(
     "--verbose", action="store_true", help="Print additional information about the data"
 )
@@ -46,7 +50,7 @@ args = parser.parse_args()
 
 # Date a which the timeline ends. Needs to be later than the last date in the data
 # but it's easier to update here by hand than to search through the data to find it.
-enddate = "01/01/2028"
+enddate = "01/01/2029"
 
 with open('MA_towns.json') as f:
     data = json.load(f)
